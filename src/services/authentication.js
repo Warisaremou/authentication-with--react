@@ -1,26 +1,17 @@
 import axios from "axios";
-import { LOGIN_URL } from "./config";
-import toast, { Toaster } from "react-hot-toast";
+import { LOGIN_URL, REGISTER_URL } from "./config";
 
-// const notificationError = () => toast("User Not Found !");
-
-const login = (email, password) => {
-  return axios
-    .post(LOGIN_URL, {
-      email,
-      password,
-    })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-      toast.error("User Not Found");
-      // notificationError();
-    });
-  
+export const login = (email, password) => {
+  return axios.post(LOGIN_URL, {
+    email,
+    password,
+  });
 };
-<Toaster />
-export default {
-  login,
+
+export const register = (name, email, password) => {
+  return axios.post(REGISTER_URL, {
+    name,
+    email,
+    password,
+  });
 };
