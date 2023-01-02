@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
-import { userData } from "./../data";
-// import Authentication from "../services/authentication";
+import { login } from "../services/authentication";
+import toast, { Toaster } from "react-hot-toast";
 
 const schema = z
   .object({
@@ -27,25 +27,17 @@ function Login() {
   });
 
   const onSubmit = (data) => {
-    // const userIsAuthaurize = Authentication.login(data.email, data.password);
-
-    // console.log(userIsAuthaurize  )
-    // if (userIsAuthaurize) {
-    //   console.log("oui");
-
-    //   // setLocalStorage("userAccount", data);
-    //   // navigate("/acceuil");
-    // } else {
-    //   console.log("non");
-    // }
-
-    // return;
-    // console.log(data);
-    console.log(data.email);
-    if (data.email == userData.email && data.password == userData.password) {
-      setLocalStorage("userAccount", data);
-      navigate("/acceuil");
-    }
+    login(data.email, data.password)
+      .then((res) => {
+        toast.success("Logged in successfully !");
+        setLocalStorage("userAccount", data);
+        navigate("/acceuil");
+        console.log(res);
+      })
+      .catch((error) => {
+        toast.error("User Not Found !");
+        console.log(error);
+      });
   };
 
   return (
@@ -86,8 +78,9 @@ function Login() {
 
         <div className="flex justify-center mt-4">
           <button className="signIn-btn">Sign In</button>
-        </div> 
+        </div>
       </form>
+      <Toaster />
     </div>
   );
 }
