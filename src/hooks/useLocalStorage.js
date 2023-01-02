@@ -7,9 +7,6 @@ export const useLocalStorage = () => {
     }
 
     const setLocalStorage = (key, value) => {
-        
-        
-
         if (window != undefined) {
             localStorage.setItem(key, JSON.stringify(value))
         }

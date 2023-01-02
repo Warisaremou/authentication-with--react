@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { userData } from "./../data";
+// import Authentication from "../services/authentication";
 
 const schema = z
   .object({
@@ -26,8 +27,21 @@ function Login() {
   });
 
   const onSubmit = (data) => {
+    // const userIsAuthaurize = Authentication.login(data.email, data.password);
+
+    // console.log(userIsAuthaurize  )
+    // if (userIsAuthaurize) {
+    //   console.log("oui");
+
+    //   // setLocalStorage("userAccount", data);
+    //   // navigate("/acceuil");
+    // } else {
+    //   console.log("non");
+    // }
+
+    // return;
     // console.log(data);
-    // console.log(data.email);
+    console.log(data.email);
     if (data.email == userData.email && data.password == userData.password) {
       setLocalStorage("userAccount", data);
       navigate("/acceuil");
@@ -72,18 +86,7 @@ function Login() {
 
         <div className="flex justify-center mt-4">
           <button className="signIn-btn">Sign In</button>
-        </div>
-
-        {/* Warning */}
-        {/* <p
-          className={`${
-            isError
-              ? "mt-5 rounded-md bg-red-400 text-sm p-2 text-center text-white transition-all duration-75"
-              : "hidden"
-          }`}
-        >
-          Utilisateur introuvable !
-        </p> */}
+        </div> 
       </form>
     </div>
   );
