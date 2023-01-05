@@ -1,23 +1,33 @@
 import { createContext } from "react";
 import Login from "./Login";
-import { Acceuil } from "../Pages";
+import Error from "./Error";
+import { Home, Products } from "../Pages";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import { useLocalStorage } from "../hooks/useLocalStorage";
+import { UserInfoProvider } from "../Context/AuthenticationContext";
 import ProtectedRoute from "./ProtectedRoute";
+import { NextUIProvider } from "@nextui-org/react";
+import NavBar from "./NavBar";
 
 export const LoginContext = createContext();
 
 function App() {
   return (
     <div className="font-poppins">
-      <Router>
-        <Routes>
-          <Route path="login" element={<Login />} />
-          <Route path="/" element={<ProtectedRoute />}>
-            <Route path="acceuil" element={<Acceuil />} />
-          </Route>
-        </Routes>
-      </Router>
+      <NextUIProvider>
+        <UserInfoProvider>
+          <Router>
+            <NavBar />
+            <Routes>
+              <Route path="login" element={<Login />} />
+              <Route path="/" element={<ProtectedRoute />}>
+                <Route path="home" element={<Home />} />
+                <Route path="products" element={<Products />} />
+              </Route>
+              <Route path="*" element={<Error />} />
+            </Routes>
+          </Router>
+        </UserInfoProvider>
+      </NextUIProvider>
     </div>
   );
 }
