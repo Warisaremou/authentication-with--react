@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -6,6 +6,8 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authentication";
 import toast, { Toaster } from "react-hot-toast";
+import { UserInfoContext } from "../Context/AuthenticationContext";
+import Loader from "../utils/Loader";
 
 const schema = z
   .object({
@@ -16,6 +18,8 @@ const schema = z
 
 function Login() {
   const { setLocalStorage } = useLocalStorage();
+  const [userInfo, setUserInfo] = useContext(UserInfoContext);
+  const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -27,16 +31,24 @@ function Login() {
   });
 
   const onSubmit = (data) => {
+    setLoader(true)
     login(data.email, data.password)
       .then((res) => {
         toast.success("Logged in successfully !");
+        // setUserInfo(data);
+        // console.log(userInfo);
+        // console.log(data);
         setLocalStorage("userAccount", data);
-        navigate("/acceuil");
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+        setLoader(false)
         console.log(res);
       })
       .catch((error) => {
         toast.error("User Not Found !");
         console.log(error);
+        setLoader(false)
       });
   };
 
@@ -77,7 +89,10 @@ function Login() {
         </div>
 
         <div className="flex justify-center mt-4">
-          <button className="signIn-btn">Sign In</button>
+          <button className="signIn-btn flex items-center">
+            {loader && <Loader />}
+            Sign In
+          </button>
         </div>
       </form>
       <Toaster />
