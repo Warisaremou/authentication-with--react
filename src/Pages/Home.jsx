@@ -1,16 +1,15 @@
-import  React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../Components/App";
+// import NavBar from "../Components/NavBar";
+// import Items from "../services/items";
 
-function Home() {
-  const isEnabled = useContext(LoginContext)
+function Acceuil() {
   return (
-    <div className="max-w-2xl mx-auto">
-      <Link to={`${isEnabled ? "/acceuil" : "/login"}`} className="flex justify-center mt-5">
-        <button className="signIn-btn">Accéder à l'acceuil</button>
-      </Link>
+    <div>
+      {/* <NavBar /> */}
+      <h1 className="pt-10 text-center text-lg">Home</h1>
     </div>
   );
 }
 
-export default Home;
+export default Acceuil;
